@@ -1,5 +1,3 @@
- # We couldn't find your account with that information 
- # https://twitter.com/account/begin_password_reset
 import time
 from .logger import *
 from selenium import webdriver

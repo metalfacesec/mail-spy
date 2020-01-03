@@ -1,6 +1,7 @@
 import sys
 import socket
 import dns.resolver
+from lib import etsy
 from lib import logger
 from lib import paypal
 from lib import twitter
@@ -57,7 +58,7 @@ if __name__ == '__main__':
         logger.print_warning("Found masked number " + payPalCheck[0] + " from PayPal")
         masked_contact_info['phone'].append(payPalCheck[0])
 
-    # Check Twiter
+    # Check Twitter
     twitterInfo = twitter.doesTwitterAccountExist(email_address)
     if len(twitterInfo) > 0:
         logger.print_warning("Found twitter account")
@@ -67,3 +68,7 @@ if __name__ == '__main__':
             elif '-' in info:
                 logger.print_warning("Found masked number " + info + " from Twitter")
                 masked_contact_info['phone'].append(info)
+
+    # Check Etsy
+    if etsy.doesEtsyAccountExist(email_address):
+        logger.print_warning("Etsy account found!")
