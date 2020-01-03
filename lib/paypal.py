@@ -1,4 +1,3 @@
-#
 import time
 from .logger import *
 from selenium import webdriver

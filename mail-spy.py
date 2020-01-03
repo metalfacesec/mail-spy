@@ -3,6 +3,7 @@ import socket
 import dns.resolver
 from lib import logger
 from lib import paypal
+from lib import twitter
 from lib import facebook
 from lib import instagram
 from pydnsbl import DNSBLChecker
@@ -26,6 +27,7 @@ if __name__ == '__main__':
         clean_addr = raw_addr[:-1].split(" ")[1]
         ip_addr = socket.gethostbyname(clean_addr)
         mx_records.append(MXRecord(clean_addr, ip_addr))
+        logger.print_warning("Found MX Record: " + clean_addr)
 
     # Blacklist check
     blacklistChecker = DNSBLChecker()
@@ -54,3 +56,14 @@ if __name__ == '__main__':
         logger.print_warning("PayPal account found, pulling masked phone number from account")
         logger.print_warning("Found masked number " + payPalCheck[0] + " from PayPal")
         masked_contact_info['phone'].append(payPalCheck[0])
+
+    # Check Twiter
+    twitterInfo = twitter.doesTwitterAccountExist(email_address)
+    if len(twitterInfo) > 0:
+        logger.print_warning("Found twitter account")
+        for info in twitterInfo:
+            if '.' in info and '@' in info:
+                masked_contact_info['emails'].append(info)
+            elif '-' in info:
+                logger.print_warning("Found masked number " + info + " from Twitter")
+                masked_contact_info['phone'].append(info)
