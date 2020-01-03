@@ -42,20 +42,11 @@ def doesFacebookAccountExist(email):
     time.sleep(5)
 
     if 'facebook.com/confirmemail.php' in  driver.current_url:
-        print("This email does NOT have a facebook account")
         return []
     elif 'facebook.com/recover/initiate/' in driver.current_url:
-        print("Found facebook account for email address with initiate recovery")
-
-        parsed_url = urlparse(driver.current_url)
-        test = parse_qs(parsed_url.query)
-
-        print(test + "!!!!!!!!FIGURE THIS OUT")
-
+        # TODO: Pull masked addresses from here
         return [email]
     elif 'facebook.com/recover/code' in driver.current_url:
-        print("Found facebook account for email address")
-
         parsed_url = urlparse(driver.current_url)
         test = parse_qs(parsed_url.query)
 
@@ -65,5 +56,4 @@ def doesFacebookAccountExist(email):
                 emailsFound.append(value[0])
         return emailsFound
     else:
-        print("Unknown facebook acount status, check method is still working")
         return []
