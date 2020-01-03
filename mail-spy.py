@@ -2,6 +2,7 @@ import sys
 import socket
 import dns.resolver
 from lib import etsy
+from lib import ebay
 from lib import logger
 from lib import paypal
 from lib import twitter
@@ -72,3 +73,9 @@ if __name__ == '__main__':
     # Check Etsy
     if etsy.doesEtsyAccountExist(email_address):
         logger.print_warning("Etsy account found!")
+
+    # Check Ebay
+    ebayAccount = ebay.doesEbayAccountExist(email_address)
+    if len(ebayAccount):
+        masked_contact_info['phone'].append(ebayAccount[0])
+        logger.print_warning("Found ebay account with masked number: " + ebayAccount[0])
