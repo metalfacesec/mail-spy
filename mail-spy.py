@@ -6,6 +6,10 @@ from lib import facebook
 from pydnsbl import DNSBLChecker
 from model.MXRecord import MXRecord
 
+masked_contact_info = {
+    'emails': []
+}
+
 if __name__ == '__main__':
     email_address = sys.argv[1]
     email_domain = email_address.split('@')[1]
@@ -29,3 +33,9 @@ if __name__ == '__main__':
 
     # Check for facebook account
     facebook_emails = facebook.doesFacebookAccountExist(email_address)
+    if len(facebook_emails) > 0:
+        logger.print_warning("Found facebook account for " + email_address)
+        for email in facebook_emails:
+            print(email)
+            if '**' in email:
+                masked_contact_info['emails'].append(email)
